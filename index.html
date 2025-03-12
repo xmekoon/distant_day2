@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Интернет магазин дверей</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Подключение Yandex Maps API -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Логотип">
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+        <nav class="auth-nav">
+            <ul>
+                <li><a href="login.html">Войти</a></li>
+                <li><a href="register.html">Регистрация</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Добро пожаловать в интернет магазин дверей</h1>
+        <p>Основная информация о сайте, города филиалов, популярная продукция.</p>
+
+        <!-- Новостные блоки -->
+        <section class="news">
+            <h2>Новости</h2>
+            <div class="news-grid">
+                <div class="news-item">
+                    <img src="https://via.placeholder.com/300x200" alt="Новость 1">
+                    <h3>Новая коллекция дверей</h3>
+                    <p>Мы рады представить вам новую коллекцию дверей в стиле модерн. Узнайте больше о наших новинках!</p>
+                    <a href="#">Читать далее</a>
+                </div>
+                <div class="news-item">
+                    <img src="https://via.placeholder.com/300x200" alt="Новость 2">
+                    <h3>Акция на межкомнатные двери</h3>
+                    <p>Только до конца месяца скидка 20% на все межкомнатные двери. Успейте купить!</p>
+                    <a href="#">Читать далее</a>
+                </div>
+                <div class="news-item">
+                    <img src="https://via.placeholder.com/300x200" alt="Новость 3">
+                    <h3>Открытие нового филиала</h3>
+                    <p>Мы открыли новый филиал в Москве. Приходите и выбирайте двери из нашего каталога!</p>
+                    <a href="#">Читать далее</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Карта с выбором города -->
+        <section class="city-map">
+            <h2>Выберите город</h2>
+            <div id="map" style="width: 100%; height: 400px;"></div>
+            <div class="city-selector">
+                <label for="city">Ваш город:</label>
+                <select id="city">
+                    <option value="Москва">Москва</option>
+                    <option value="Санкт-Петербург">Санкт-Петербург</option>
+                    <option value="Екатеринбург">Екатеринбург</option>
+                    <option value="Новосибирск">Новосибирск</option>
+                </select>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Интернет магазин дверей</p>
+    </footer>
+
+    <!-- Скрипт для карты -->
+    <script>
+        // Инициализация карты
+        ymaps.ready(init);
+
+        function init() {
+            const map = new ymaps.Map("map", {
+                center: [55.76, 37.64], // Координаты центра карты (Москва)
+                zoom: 10 // Масштаб
+            });
+
+            // Добавление меток для городов
+            const cities = [
+                { name: "Москва", coords: [55.76, 37.64] },
+                { name: "Санкт-Петербург", coords: [59.94, 30.31] },
+                { name: "Екатеринбург", coords: [56.84, 60.61] },
+                { name: "Новосибирск", coords: [55.01, 82.93] }
+            ];
+
+            cities.forEach(city => {
+                const placemark = new ymaps.Placemark(city.coords, {
+                    hintContent: city.name
+                });
+                map.geoObjects.add(placemark);
+            });
+
+            // Обработчик выбора города
+            const citySelector = document.getElementById("city");
+            citySelector.addEventListener("change", function () {
+                const selectedCity = cities.find(city => city.name === this.value);
+                if (selectedCity) {
+                    map.setCenter(selectedCity.coords, 10); // Центрируем карту на выбранном городе
+                }
+            });
+        }
+    </script>
+</body>
+</html>
